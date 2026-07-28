@@ -1,0 +1,39 @@
+ const isAuthenticated = async (req, res, next) => {
+  try {
+    const accessToken = req.cookies.accessToken;
+    if (!accessToken) {
+      return res.status(401).json({
+        success: false,
+        message: " access Token not found",
+      });
+    }
+
+    const decode = jwt.verify(accessToken, config.JWT_SECRET_KEY);
+
+    const session = await Session.findOne({
+      _id: decode.sessionId,
+      user: decode.id,
+      revoked: false,
+    });
+    if (!session) {
+      return res.status(401).json({
+        success: false,
+        message: "session not found",
+      });
+    }
+
+    req.user = {
+      sessionId: decode.sessionId,
+      id: decode.id,
+      role: decode.role,
+    };
+    return next();
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+export default isAuthenticated
