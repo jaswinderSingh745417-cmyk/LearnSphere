@@ -1,4 +1,4 @@
- const isAuthenticated = async (req, res, next) => {
+const isAuthenticated = async (req, res, next) => {
   try {
     const accessToken = req.cookies.accessToken;
     if (!accessToken) {
@@ -29,6 +29,17 @@
     };
     return next();
   } catch (error) {
+    if (
+      error.name === "TokenExpiredError" ||
+      error.name === "JsonWebTokenError"
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid or expired access token",
+      });
+    }
+
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -36,4 +47,4 @@
   }
 };
 
-export default isAuthenticated
+export default isAuthenticated;

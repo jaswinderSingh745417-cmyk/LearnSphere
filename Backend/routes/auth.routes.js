@@ -6,6 +6,7 @@ import {
   Logout,
   refreshToken,
   registerUser,
+  verifyEmail,
 } from "../controller/auth.controller.js";
 import isAuthenticated from "../middleware/isAuthenticated.js";
 
@@ -17,5 +18,6 @@ router.post("/logout", Logout);
 router.post("/refresh-token", refreshToken);
 router.get("/profile ",isAuthenticated,getUser)
 router.put("/change-password",isAuthenticated,changePassword)
+router.post("/verify-email",verifyEmail)
 
 export default router;

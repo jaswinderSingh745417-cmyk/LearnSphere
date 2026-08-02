@@ -3,13 +3,14 @@ import Otp from "../models/otp.model.js";
 import hashToken from "../utils/hashToken.js";
 import { sendEmail } from "./email.service.js";
 
-export const sendVerificationOtp = async (user) => {
+ const sendVerificationOtp = async (user,purpose) => {
   try {
     const otp = genOtp();
+    console.log(otp)
 
     await Otp.deleteMany({
       email: user.email,
-      purpose: "EMAIL_VERIFICATION",
+      purpose
     });
 
     const otpHash = hashToken(otp);
@@ -33,4 +34,6 @@ export const sendVerificationOtp = async (user) => {
   }
 };
 
+
+export default  sendVerificationOtp
 

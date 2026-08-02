@@ -6,6 +6,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Full namwe is required"],
       trim: true,
+      minlength : [3,"minimum length of the fullname must b atleast 3"],
+      maxLength : [50,"maximum length cfan only be 50 characters"]
     },
     email: {
       type: String,
@@ -25,12 +27,16 @@ const userSchema = new mongoose.Schema(
       default: "student",
     },
     avatar: {
-      type: String,
-      default: "",
+      url: { type: String, default: "" },
+      publicId: {
+        type: String,
+        default: "",
+      },
     },
     bio: {
       type: String,
       default: "",
+      maxLength :[300,"maximum length can only be 300 "]
     },
     dateOfBirth: {
       type: Date,
