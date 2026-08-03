@@ -16,7 +16,7 @@ router.post("/register", registerUser);
 router.post("/login", Login);
 router.post("/logout", Logout);
 router.post("/refresh-token", refreshToken);
-router.get("/profile ",isAuthenticated,getUser)
+router.get("/profile",isAuthenticated,getUser)
 router.put("/change-password",isAuthenticated,changePassword)
 router.post("/verify-email",verifyEmail)
 

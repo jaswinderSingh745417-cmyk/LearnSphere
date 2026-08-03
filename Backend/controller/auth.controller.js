@@ -127,7 +127,7 @@ export const Login = async (req, res) => {
 
     const session = await Session.create({
       user: user._id,
-      refreshTokenHash: "",
+      refreshTokenHash: " ",
     });
 
     //token generation
@@ -152,7 +152,7 @@ export const Login = async (req, res) => {
       httpOnly: true,
       secure: false,
       sameSite: "lax",
-      maxAge: 15 * 60 * 1000,
+      maxAge: 10000 * 60 * 1000,
     });
 
     return res.status(200).json({
@@ -628,9 +628,11 @@ export const getUser = async (req, res) => {
       user,
     });
   } catch (error) {
+
+    console.error(error)
     return res.status(500).json({
       success: false,
-      message: " Internal server error",
+      message: "Internal server error",
     });
   }
 };

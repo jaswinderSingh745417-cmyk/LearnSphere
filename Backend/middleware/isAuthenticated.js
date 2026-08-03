@@ -1,3 +1,7 @@
+import jwt from 'jsonwebtoken'
+import config from '../config/config.js';
+import Session from '../models/session.model.js';
+
 const isAuthenticated = async (req, res, next) => {
   try {
     const accessToken = req.cookies.accessToken;
@@ -8,7 +12,7 @@ const isAuthenticated = async (req, res, next) => {
       });
     }
 
-    const decode = jwt.verify(accessToken, config.JWT_SECRET_KEY);
+    const decode = await jwt.verify(accessToken, config.JWT_SECRET_KEY);
 
     const session = await Session.findOne({
       _id: decode.sessionId,
